@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/home_page.dart';
-import 'package:tic_tac_toe/register.dart';
-import 'package:tic_tac_toe/sgin_in.dart';
+import 'package:tic_tac_toe/sign_up.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -29,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('images/sign_in.png'),
+              Image.asset('images/sign_up.png'),
               SizedBox(
                 width: 300,
                 child: TextField(
@@ -54,30 +56,28 @@ class _LoginPageState extends State<LoginPage> {
                   keyboardType: TextInputType.emailAddress,
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20,),
               SizedBox(
                 width: 300,
                 child: TextField(
                   controller: _passwordController,
                   decoration: InputDecoration(
-                    suffixIcon: const Icon(
-                      Icons.lock,
-                      color: Colors.grey,
-                    ),
-                    hintText: '   Password',
-                    hintStyle: const TextStyle(color: Colors.grey),
-                    filled: true,
-                    fillColor: Colors.white,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
+                      suffixIcon: const Icon(
+                        Icons.lock,
+                        color: Colors.grey,
+                      ),
+                      hintText: '   Password',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      filled: true,
+                      fillColor: Colors.white,
+                      enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
-                        borderSide:
-                            const BorderSide(color: Colors.blue, width: 2.0)),
-                  ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide:
+                              const BorderSide(color: Colors.blue, width: 2.0)),
+                    ),
                   obscureText: true,
                 ),
               ),
@@ -92,46 +92,24 @@ class _LoginPageState extends State<LoginPage> {
                     );
                     return;
                   }
-                  // Call sign in method here
-                  await signInWithEmailAndPassword(
+                  // Call sign up method here
+                  await signUpWithEmailAndPassword(
                     _emailController.text,
                     _passwordController.text,
                   );
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const HomePage()));
                 },
-                 style: ElevatedButton.styleFrom(
+                style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, backgroundColor:Colors.blue,
                   padding:const  EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   minimumSize:const  Size(150, 50),
                 ),
-                child: const Text('Sign In',style: TextStyle(fontSize: 20),),
+                child: const Text('Sign Up',style: TextStyle(fontSize: 20)),
               ),
-              const SizedBox(height: 20,),
-              InkWell(
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Don't have account ?",style: TextStyle(color: Colors.grey[400],fontSize: 20),),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text('Sign Up',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.blue[400])),
-                  ],
-                ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterPage()));
-                },
-              )
+              const SizedBox(height: 20),
+              Text('Sign up with as !',style: TextStyle(color: Colors.grey[400],fontSize: 20),),
+              Text('ENJOY THE GAME',style: TextStyle(color: Colors.blue[400],fontSize: 20),)
             ],
           ),
         ),
