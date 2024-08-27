@@ -1,4 +1,8 @@
+// ignore_for_file: avoid_print
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe/google_signin.dart';
 import 'package:tic_tac_toe/home_page.dart';
 import 'package:tic_tac_toe/register.dart';
 import 'package:tic_tac_toe/sgin_in.dart';
@@ -29,7 +33,8 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('images/sign_in.png'),
+              SizedBox(height: 300, child: Image.asset('images/sign_in.png')),
+              const SizedBox(height: 20,),
               SizedBox(
                 width: 300,
                 child: TextField(
@@ -82,39 +87,67 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  if (!isEmailValid(_emailController.text)) {
-                    // Show an error message if the email is invalid
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Please enter a valid email address.')),
+              SizedBox(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (!isEmailValid(_emailController.text)) {
+                      // Show an error message if the email is invalid
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content:
+                                Text('Please enter a valid email address.')),
+                      );
+                      return;
+                    }
+                    // Call sign in method here
+                    await signInWithEmailAndPassword(
+                      _emailController.text,
+                      _passwordController.text,
                     );
-                    return;
-                  }
-                  // Call sign in method here
-                  await signInWithEmailAndPassword(
-                    _emailController.text,
-                    _passwordController.text,
-                  );
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()));
-                },
-                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor:Colors.blue,
-                  padding:const  EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  minimumSize:const  Size(150, 50),
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.blue,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    minimumSize: const Size(150, 50),
+                  ),
+                  child: const Text(
+                    'Sign In',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
-                child: const Text('Sign In',style: TextStyle(fontSize: 20),),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
+              IconButton(
+                  onPressed: () async {
+                    User? user = await signInWithGoogle();
+                    if (user != null) {
+                      print("Signed in as ${user.displayName}");
+                    }
+                  },
+                  icon: Image.asset(
+                    'images/google.png',
+                    width: 50,
+                    height: 50,
+                  )),
+              const SizedBox(
+                height: 20,
+              ),
               InkWell(
-                child:  Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have account ?",style: TextStyle(color: Colors.grey[400],fontSize: 20),),
+                    Text(
+                      "Don't have account ?",
+                      style: TextStyle(color: Colors.grey[400], fontSize: 20),
+                    ),
                     const SizedBox(
                       width: 5,
                     ),
