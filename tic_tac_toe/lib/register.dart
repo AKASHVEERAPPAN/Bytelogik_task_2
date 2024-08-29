@@ -31,7 +31,8 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('images/sign_up.png'),
+              SizedBox(height: 300, child: Image.asset('images/sign_up.png')),
+              const SizedBox(height: 20,),
               SizedBox(
                 width: 300,
                 child: TextField(

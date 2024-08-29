@@ -125,11 +125,18 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 20,
               ),
+              
               IconButton(
                   onPressed: () async {
                     User? user = await signInWithGoogle();
                     if (user != null) {
                       print("Signed in as ${user.displayName}");
+                      setState(() {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage()));
+                      });
                     }
                   },
                   icon: Image.asset(
