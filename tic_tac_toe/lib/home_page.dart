@@ -1,4 +1,7 @@
 import "package:flutter/material.dart";
+import "package:tic_tac_toe/google_signout.dart";
+import "package:tic_tac_toe/login_page.dart";
+import "package:tic_tac_toe/sign_out.dart";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,12 +24,12 @@ class _HomePageState extends State<HomePage> {
       if (palyer1 && input[index] == "") {
         input[index] = "O";
         valueD += 1;
+        palyer1 = !palyer1;
       } else if (!palyer1 && input[index] == "") {
         input[index] = "X";
         valueD += 1;
+        palyer1 = !palyer1;
       }
-
-      palyer1 = !palyer1;
 
       line();
     });
@@ -116,10 +119,22 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[800],
+      appBar: AppBar(
+        backgroundColor: Colors.grey[800],
+        title:const  Text('TIC TAC TOE',style: TextStyle(color: Colors.white),),
+        actions: [IconButton(onPressed:() async {
+                    await google_signOut() ;
+                    await signOut();
+                    setState(() {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                    });
+                  }, icon:const  Icon(Icons.logout,color: Colors.white,))],
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(height: 26,),
           const Text(
             'Score Board',
             style: TextStyle(color: Colors.white, fontSize: 30),
@@ -152,10 +167,10 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(10.0),
             child: SizedBox(
               width: double.infinity,
-              height: 500,
+              height: 400,
               child: GridView.builder(
                   itemCount: 9,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

@@ -98,7 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     _emailController.text,
                     _passwordController.text,
                   );
-                  Navigator.push(context,
+                  Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => const HomePage()));
                 },
                 style: ElevatedButton.styleFrom(

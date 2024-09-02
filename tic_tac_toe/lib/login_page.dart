@@ -26,153 +26,155 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 300, child: Image.asset('images/sign_in.png')),
-              const SizedBox(height: 20,),
-              SizedBox(
-                width: 300,
-                child: TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    suffixIcon: const Icon(
-                      Icons.person,
-                      color: Colors.grey,
-                    ),
-                    hintText: '   Email Id',
-                    hintStyle: const TextStyle(color: Colors.grey),
-                    filled: true,
-                    fillColor: Colors.white,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 300, child: Image.asset('images/sign_in.png')),
+                const SizedBox(height: 20,),
+                SizedBox(
+                  width: 300,
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      suffixIcon: const Icon(
+                        Icons.person,
+                        color: Colors.grey,
+                      ),
+                      hintText: '   Email Id',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      filled: true,
+                      fillColor: Colors.white,
+                      enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
-                        borderSide:
-                            const BorderSide(color: Colors.blue, width: 2.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide:
+                              const BorderSide(color: Colors.blue, width: 2.0)),
+                    ),
+                    keyboardType: TextInputType.emailAddress,
                   ),
-                  keyboardType: TextInputType.emailAddress,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: 300,
-                child: TextField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    suffixIcon: const Icon(
-                      Icons.lock,
-                      color: Colors.grey,
-                    ),
-                    hintText: '   Password',
-                    hintStyle: const TextStyle(color: Colors.grey),
-                    filled: true,
-                    fillColor: Colors.white,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: 300,
+                  child: TextField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      suffixIcon: const Icon(
+                        Icons.lock,
+                        color: Colors.grey,
+                      ),
+                      hintText: '   Password',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      filled: true,
+                      fillColor: Colors.white,
+                      enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
-                        borderSide:
-                            const BorderSide(color: Colors.blue, width: 2.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          borderSide:
+                              const BorderSide(color: Colors.blue, width: 2.0)),
+                    ),
+                    obscureText: true,
                   ),
-                  obscureText: true,
                 ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (!isEmailValid(_emailController.text)) {
-                      // Show an error message if the email is invalid
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content:
-                                Text('Please enter a valid email address.')),
+                const SizedBox(height: 20),
+                SizedBox(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (!isEmailValid(_emailController.text)) {
+                        // Show an error message if the email is invalid
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content:
+                                  Text('Please enter a valid email address.')),
+                        );
+                        return;
+                      }
+                      // Call sign in method here
+                      await signInWithEmailAndPassword(
+                        _emailController.text,
+                        _passwordController.text,
                       );
-                      return;
-                    }
-                    // Call sign in method here
-                    await signInWithEmailAndPassword(
-                      _emailController.text,
-                      _passwordController.text,
-                    );
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.blue,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      minimumSize: const Size(150, 50),
+                    ),
+                    child: const Text(
+                      'Sign In',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                
+                IconButton(
+                    onPressed: () async {
+                      User? user = await signInWithGoogle();
+                      if (user != null) {
+                        print("Signed in as ${user.displayName}");
+                        setState(() {
+                          Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()));
+                        });
+                      }
+                    },
+                    icon: Image.asset(
+                      'images/google.png',
+                      width: 50,
+                      height: 50,
+                    )),
+                const SizedBox(
+                  height: 20,
+                ),
+                InkWell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have account ?",
+                        style: TextStyle(color: Colors.grey[400], fontSize: 20),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text('Sign Up',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.blue[400])),
+                    ],
+                  ),
+                  onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const HomePage()));
+                            builder: (context) => const RegisterPage()));
                   },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    minimumSize: const Size(150, 50),
-                  ),
-                  child: const Text(
-                    'Sign In',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              
-              IconButton(
-                  onPressed: () async {
-                    User? user = await signInWithGoogle();
-                    if (user != null) {
-                      print("Signed in as ${user.displayName}");
-                      setState(() {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()));
-                      });
-                    }
-                  },
-                  icon: Image.asset(
-                    'images/google.png',
-                    width: 50,
-                    height: 50,
-                  )),
-              const SizedBox(
-                height: 20,
-              ),
-              InkWell(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Don't have account ?",
-                      style: TextStyle(color: Colors.grey[400], fontSize: 20),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text('Sign Up',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Colors.blue[400])),
-                  ],
-                ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterPage()));
-                },
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
