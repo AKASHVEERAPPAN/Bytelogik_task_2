@@ -16,4 +16,4 @@ Future<void> signInWithEmailAndPassword(String email, String password) async {
       print('Wrong password provided.');
     }
   }
-}
+} 

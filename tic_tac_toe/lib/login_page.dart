@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe/fb_sigin.dart';
 import 'package:tic_tac_toe/google_signin.dart';
 import 'package:tic_tac_toe/home_page.dart';
 import 'package:tic_tac_toe/register.dart';
@@ -35,7 +36,9 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 300, child: Image.asset('images/sign_in.png')),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 SizedBox(
                   width: 300,
                   child: TextField(
@@ -126,25 +129,51 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                
-                IconButton(
-                    onPressed: () async {
-                      User? user = await signInWithGoogle();
-                      if (user != null) {
-                        print("Signed in as ${user.displayName}");
-                        setState(() {
-                          Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
-                        });
-                      }
-                    },
-                    icon: Image.asset(
-                      'images/google.png',
-                      width: 50,
-                      height: 50,
-                    )),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        onPressed: () async {
+                          User? user = await signInWithGoogle();
+                          if (user != null) {
+                            print("Signed in as ${user.displayName}");
+                            setState(() {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const HomePage()));
+                            });
+                          }
+                        },
+                        icon: Image.asset(
+                          'images/google.png',
+                          width: 50,
+                          height: 50,
+                        )),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    IconButton(
+                        onPressed: () async {
+                          UserCredential? user = await signInWithFacebook();
+                          if (user != null) {
+                            // print("Signed in as ${user.displayName}");
+                            setState(() {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const HomePage()));
+                            });
+                          }
+                        },
+                        icon: Image.asset(
+                          'images/facebook.png',
+                          width: 40,
+                          height: 40,
+                        )),
+                  ],
+                ),
                 const SizedBox(
                   height: 20,
                 ),

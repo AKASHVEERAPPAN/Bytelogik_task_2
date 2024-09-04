@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:tic_tac_toe/google_signout.dart";
 import "package:tic_tac_toe/login_page.dart";
 import "package:tic_tac_toe/sign_out.dart";
 
@@ -123,7 +122,6 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.grey[800],
         title:const  Text('TIC TAC TOE',style: TextStyle(color: Colors.white),),
         actions: [IconButton(onPressed:() async {
-                    await google_signOut() ;
                     await signOut();
                     setState(() {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
