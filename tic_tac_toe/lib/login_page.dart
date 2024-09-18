@@ -138,12 +138,10 @@ class _LoginPageState extends State<LoginPage> {
                           User? user = await signInWithGoogle();
                           if (user != null) {
                             print("Signed in as ${user.displayName}");
-                            setState(() {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => const HomePage()));
-                            });
                           }
                         },
                         icon: Image.asset(
